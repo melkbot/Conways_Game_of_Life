@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        int rows = 25, cols = 25; // Adjust the grid size as needed
+        int rows = 100, cols = 100; // Adjust the grid size as needed
 
         GameOfLife game = new GameOfLife(rows, cols);
         game.initializeGrid();
@@ -61,7 +61,17 @@ public class Main {
         JButton startButton = new JButton("Start Simulation");
         startButton.setPreferredSize(new Dimension(150, 30)); // Adjust size for start/stop button
         frame.add(startButton, BorderLayout.SOUTH);
-        // Action listener for the start/stop button
+
+        // Add a text box to display the number of years passed
+        JTextField yearTextBox = new JTextField("Year: 0");
+        yearTextBox.setEditable(false);
+        yearTextBox.setHorizontalAlignment(JTextField.CENTER);
+        yearTextBox.setPreferredSize(new Dimension(150, 30));
+        frame.add(yearTextBox, BorderLayout.WEST);
+
+        final int[] yearCounter = {0}; // Counter to track the number of years
+
+        // Modify the start/stop button action listener to update the year counter
         startButton.addActionListener(e -> {
             running[0] = !running[0];
             startButton.setText(running[0] ? "Stop Simulation" : "Start Simulation");
@@ -70,7 +80,9 @@ public class Main {
                 new Thread(() -> {
                     while (running[0]) {
                         game.nextGeneration();
+                        yearCounter[0]++; // Increment the year counter
                         SwingUtilities.invokeLater(() -> {
+                            yearTextBox.setText("Year: " + yearCounter[0]); // Update the text box
                             for (int i = 0; i < rows; i++) {
                                 for (int j = 0; j < cols; j++) {
                                     buttons[i][j].setBackground(game.getGrid()[i][j] 
@@ -86,6 +98,18 @@ public class Main {
                         }
                     }
                 }).start();
+            }
+        });
+
+        // Reset the year counter when resetting the simulation
+        resetButton.addActionListener(e -> {
+            game.initializeGrid();
+            yearCounter[0] = 0; // Reset the year counter
+            yearTextBox.setText("Year: 0"); // Reset the text box
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    buttons[i][j].setBackground(Color.WHITE);
+                }
             }
         });
 
