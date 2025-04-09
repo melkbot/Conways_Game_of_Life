@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        int rows = 100, cols = 100; // Adjust the grid size as needed
+        int rows = 100, cols = rows; // Adjust the grid size as needed
 
         GameOfLife game = new GameOfLife(rows, cols);
         game.initializeGrid();
@@ -14,17 +14,27 @@ public class Main {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setResizable(false);
 
-        JPanel gridPanel = new JPanel(new GridLayout(rows, cols));
+        // Get screen dimensions
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+
+        // Calculate button size to fit within the screen
+        int maxGridWidth = screenWidth - 200; // Leave space for UI elements
+        int maxGridHeight = screenHeight - 200; // Leave space for UI elements
+        int buttonSize = Math.min(maxGridWidth / cols, maxGridHeight / rows);
+
+        JPanel gridPanel = new JPanel(new GridLayout(rows, cols, 0, 0)); // Set gaps to 0 for touching cells
         JButton[][] buttons = new JButton[rows][cols];
 
         // Create buttons for each cell in the grid
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 JButton button = new JButton();
-                button.setPreferredSize(new Dimension(20, 20)); // Set smaller size for buttons
+                button.setPreferredSize(new Dimension(buttonSize, buttonSize)); // Set dynamic size for buttons
                 button.setBackground(Color.WHITE);
                 button.setOpaque(true);
-                button.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Add gray border
+                button.setBorder(BorderFactory.createLineBorder(Color.GRAY)); // Use consistent border color
 
                 int row = i, col = j;
                 button.addActionListener(e -> {
@@ -39,13 +49,12 @@ public class Main {
             }
         }
 
-        // -=-=-=-= BUTTONS AND STUFF-=-=-=-
         // Add the grid panel to the frame
         frame.add(gridPanel, BorderLayout.CENTER);
 
         // Add a button to reset the simulation
         JButton resetButton = new JButton("Reset Simulation");
-        resetButton.setPreferredSize(new Dimension(150, 30)); // Adjust size for reset button
+        resetButton.setPreferredSize(new Dimension(100, 25)); // Smaller size for the reset button
         resetButton.addActionListener(e -> {
             game.initializeGrid();
             for (int i = 0; i < rows; i++) {
@@ -66,7 +75,7 @@ public class Main {
         JTextField yearTextBox = new JTextField("Year: 0");
         yearTextBox.setEditable(false);
         yearTextBox.setHorizontalAlignment(JTextField.CENTER);
-        yearTextBox.setPreferredSize(new Dimension(150, 30));
+        yearTextBox.setPreferredSize(new Dimension(100, 25)); // Smaller size for the year text box
         frame.add(yearTextBox, BorderLayout.WEST);
 
         final int[] yearCounter = {0}; // Counter to track the number of years
@@ -113,7 +122,7 @@ public class Main {
             }
         });
 
-        // Randomizes the grid
+        // Randomizes the grid, runs a little bit slower than the rest of the buttons
         JButton randomizeButton = new JButton("Randomize Grid");
         randomizeButton.setPreferredSize(new Dimension(150, 30)); // Adjust size for randomize button
         randomizeButton.addActionListener(e -> {
