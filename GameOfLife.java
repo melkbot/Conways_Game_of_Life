@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.awt.Color;
 
 public class GameOfLife {
