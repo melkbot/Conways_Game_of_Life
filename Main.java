@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        int rows = 20, cols = 20; // Adjust the grid size as needed
+        int rows = 25, cols = 25; // Adjust the grid size as needed
 
         GameOfLife game = new GameOfLife(rows, cols);
         game.initializeGrid();
@@ -21,6 +21,7 @@ public class Main {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 JButton button = new JButton();
+                button.setPreferredSize(new Dimension(20, 20)); // Set smaller size for buttons
                 button.setBackground(Color.WHITE);
                 button.setOpaque(true);
                 button.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Add gray border
@@ -44,6 +45,7 @@ public class Main {
 
         // Add a button to reset the simulation
         JButton resetButton = new JButton("Reset Simulation");
+        resetButton.setPreferredSize(new Dimension(150, 30)); // Adjust size for reset button
         resetButton.addActionListener(e -> {
             game.initializeGrid();
             for (int i = 0; i < rows; i++) {
@@ -57,8 +59,9 @@ public class Main {
 
         // Add a button to start/stop the simulation
         JButton startButton = new JButton("Start Simulation");
+        startButton.setPreferredSize(new Dimension(150, 30)); // Adjust size for start/stop button
         frame.add(startButton, BorderLayout.SOUTH);
-        // Add action listener to the start/stop button
+        // Action listener for the start/stop button
         startButton.addActionListener(e -> {
             running[0] = !running[0];
             startButton.setText(running[0] ? "Stop Simulation" : "Start Simulation");
@@ -85,6 +88,21 @@ public class Main {
                 }).start();
             }
         });
+
+        // Randomizes the grid
+        JButton randomizeButton = new JButton("Randomize Grid");
+        randomizeButton.setPreferredSize(new Dimension(150, 30)); // Adjust size for randomize button
+        randomizeButton.addActionListener(e -> {
+            game.randomizeGrid();
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    buttons[i][j].setBackground(game.getGrid()[i][j] 
+                        ? game.getColors()[i][j] 
+                        : Color.WHITE);
+                }
+            }
+        });
+        frame.add(randomizeButton, BorderLayout.EAST);
 
         frame.pack();
         frame.setVisible(true);

@@ -4,7 +4,7 @@ public class GameOfLife {
     // Instance variables
     // The grid is represented as a 2D boolean array
     // where true indicates a live cell and false indicates a dead cell
-    // The colors array stores the color of each cell
+    // The colors array stores the color of each cell (r, g, b)
     private boolean[][] grid;
     private Color[][] colors;
     private int rows, cols;
@@ -119,5 +119,15 @@ public class GameOfLife {
         }
 
         return count > 0 ? new Color(red / count, green / count, blue / count) : new Color(0, 0, 0);
+    }
+
+    // This method randomizes the grid and assigns random colors to live cells
+    public void randomizeGrid() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                grid[i][j] = Math.random() < 0.5; // 50% chance of being alive
+                colors[i][j] = grid[i][j] ? new Color((int)(Math.random() * 256), (int)(Math.random() * 256), (int)(Math.random() * 256)) : null;
+            }
+        }
     }
 }
