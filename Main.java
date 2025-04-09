@@ -17,6 +17,7 @@ public class Main {
         JPanel gridPanel = new JPanel(new GridLayout(rows, cols));
         JButton[][] buttons = new JButton[rows][cols];
 
+        // Create buttons for each cell in the grid
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 JButton button = new JButton();
@@ -37,13 +38,27 @@ public class Main {
             }
         }
 
+        // -=-=-=-= BUTTONS AND STUFF-=-=-=-
+        // Add the grid panel to the frame
         frame.add(gridPanel, BorderLayout.CENTER);
 
-        JButton startButton = new JButton("Start Simulation");
-        frame.add(startButton, BorderLayout.SOUTH);
-
+        // Add a button to reset the simulation
+        JButton resetButton = new JButton("Reset Simulation");
+        resetButton.addActionListener(e -> {
+            game.initializeGrid();
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    buttons[i][j].setBackground(Color.WHITE);
+                }
+            }
+        });
+        frame.add(resetButton, BorderLayout.NORTH);
         final boolean[] running = {false};
 
+        // Add a button to start/stop the simulation
+        JButton startButton = new JButton("Start Simulation");
+        frame.add(startButton, BorderLayout.SOUTH);
+        // Add action listener to the start/stop button
         startButton.addActionListener(e -> {
             running[0] = !running[0];
             startButton.setText(running[0] ? "Stop Simulation" : "Start Simulation");
