@@ -33,7 +33,7 @@ public class GameOfLife {
     public void toggleCell(int row, int col) {
         if (row >= 0 && row < rows && col >= 0 && col < cols) {
             grid[row][col] = !grid[row][col];
-            colors[row][col] = grid[row][col] ? new Color(0, 0, 0) : null;
+            colors[row][col] = grid[row][col] ? new Color((int)(Math.random() * 256), (int)(Math.random() * 256), (int)(Math.random() * 256)) : null;
         }
     }
 

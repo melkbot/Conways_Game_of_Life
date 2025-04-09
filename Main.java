@@ -1,9 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,7 +16,6 @@ public class Main {
 
         JPanel gridPanel = new JPanel(new GridLayout(rows, cols));
         JButton[][] buttons = new JButton[rows][cols];
-        Random random = new Random();
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -33,7 +28,7 @@ public class Main {
                 button.addActionListener(e -> {
                     game.toggleCell(row, col);
                     button.setBackground(game.getGrid()[row][col] 
-                        ? new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)) 
+                        ? new Color((int)(Math.random() * 256), (int)(Math.random() * 256), (int)(Math.random() * 256)) 
                         : Color.WHITE);
                 });
 
