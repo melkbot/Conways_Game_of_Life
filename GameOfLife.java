@@ -66,7 +66,12 @@ public class GameOfLife {
                     newColors[i][j] = colors[i][j];
                 } else if (liveNeighbors == 3) {
                     newGrid[i][j] = true;
-                    newColors[i][j] = calculateAverageColor(i, j);
+                    // 5% chance for a new random color
+                    if (Math.random() < 0.01) {
+                        newColors[i][j] = new Color((int)(Math.random() * 256), (int)(Math.random() * 256), (int)(Math.random() * 256));
+                    } else {
+                        newColors[i][j] = calculateAverageColor(i, j);
+                    }
                 }
             }
         }
