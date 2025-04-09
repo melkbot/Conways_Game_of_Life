@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        int rows = 20, cols = 20;
+        int rows = 20, cols = 20; // Adjust the grid size as needed
 
         GameOfLife game = new GameOfLife(rows, cols);
         game.initializeGrid();
@@ -22,7 +22,7 @@ public class Main {
                 JButton button = new JButton();
                 button.setBackground(Color.WHITE);
                 button.setOpaque(true);
-                button.setBorderPainted(false);
+                button.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY)); // Add gray border
 
                 int row = i, col = j;
                 button.addActionListener(e -> {
