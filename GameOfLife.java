@@ -5,6 +5,7 @@ public class GameOfLife {
     // The grid is represented as a 2D boolean array
     // where true indicates a live cell and false indicates a dead cell
     // The colors array stores the color of each cell (r, g, b)
+    private int[][] mutations;
     private boolean[][] grid;
     private Color[][] colors;
     private int rows, cols;
@@ -13,6 +14,7 @@ public class GameOfLife {
     public GameOfLife(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
+        mutations = new int[rows][cols];
         grid = new boolean[rows][cols];
         colors = new Color[rows][cols];
     }
