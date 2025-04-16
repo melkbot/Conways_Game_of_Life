@@ -3,14 +3,14 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        int rows = 100, cols = rows; // Adjust the grid size as needed
+        int rows = 25, cols = rows; // Adjust the grid size as needed
 
         GameOfLife game = new GameOfLife(rows, cols);
         game.initializeGrid();
 
         JFrame frame = new JFrame("Conway's Game of Life");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
+        frame.setLayout(new BorderLayout(10, 10)); // Add spacing between components
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setResizable(false);
 
@@ -39,8 +39,8 @@ public class Main {
                 int row = i, col = j;
                 button.addActionListener(e -> {
                     game.toggleCell(row, col);
-                    button.setBackground(game.getGrid()[row][col] 
-                        ? new Color((int)(Math.random() * 256), (int)(Math.random() * 256), (int)(Math.random() * 256)) 
+                    button.setBackground(game.getGrid()[row][col].isAlive() 
+                        ? game.getGrid()[row][col].getColor() 
                         : Color.WHITE);
                 });
 
@@ -54,7 +54,7 @@ public class Main {
 
         // Add a button to reset the simulation
         JButton resetButton = new JButton("Reset Simulation");
-        resetButton.setPreferredSize(new Dimension(100, 25)); // Smaller size for the reset button
+        resetButton.setPreferredSize(new Dimension(150, 30)); // Match size with other buttons
         resetButton.addActionListener(e -> {
             game.initializeGrid();
             for (int i = 0; i < rows; i++) {
@@ -94,8 +94,8 @@ public class Main {
                             yearTextBox.setText("Year: " + yearCounter[0]); // Update the text box
                             for (int i = 0; i < rows; i++) {
                                 for (int j = 0; j < cols; j++) {
-                                    buttons[i][j].setBackground(game.getGrid()[i][j] 
-                                        ? game.getColors()[i][j] 
+                                    buttons[i][j].setBackground(game.getGrid()[i][j].isAlive() 
+                                        ? game.getGrid()[i][j].getColor() 
                                         : Color.WHITE);
                                 }
                             }
@@ -124,13 +124,13 @@ public class Main {
 
         // Randomizes the grid, runs a little bit slower than the rest of the buttons
         JButton randomizeButton = new JButton("Randomize Grid");
-        randomizeButton.setPreferredSize(new Dimension(150, 30)); // Adjust size for randomize button
+        randomizeButton.setPreferredSize(new Dimension(150, 30)); // Ensure consistent size
         randomizeButton.addActionListener(e -> {
             game.randomizeGrid();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    buttons[i][j].setBackground(game.getGrid()[i][j] 
-                        ? game.getColors()[i][j] 
+                    buttons[i][j].setBackground(game.getGrid()[i][j].isAlive() 
+                        ? game.getGrid()[i][j].getColor() 
                         : Color.WHITE);
                 }
             }
